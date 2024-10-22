@@ -1,7 +1,7 @@
 name: Build, Serve and Test
 
 on:
-  workflow_run: 
+  workflow_dispatch:  
 
 
 jobs:
@@ -12,15 +12,9 @@ jobs:
       web:
         image: node:20
         ports:
-          - 8080:8080
-        options: >-
-          --health-cmd="curl -f http://localhost:8080 || exit 1"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
+            - "8080:8080"
         volumes:
-          - .:/app
-        # Remove command since we will start the server in steps
+            - ./html:/html
 
     steps:
       - name: Checkout code
@@ -35,13 +29,16 @@ jobs:
         run: |
           npm install
 
+      - name: Install http-server
+        run: npm install -g http-server 
+
       - name: Start HTTP server
-        run: http-server /app/html -p 8080 &
+        run: npx http-server ./html -p 8080 &
 
       - name: Wait for server to start
         run: |
-            for i in {1..30}; do
-            if curl -s http://localhost:8080 > /dev/null; then
+            for i in {1..5}; do
+            if curl -s http://localhost:8080/page1.html > /dev/null; then
                 echo "Server is up!"
                 break
             fi
@@ -49,11 +46,14 @@ jobs:
             sleep 2
             done
 
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
       - name: Run Playwright tests
         run: npx playwright test --reporter=html --output=test-results
           
       - name: Upload test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Playwright Results
           path: test-results/
