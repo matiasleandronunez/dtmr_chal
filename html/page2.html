@@ -1,0 +1,94 @@
+<html>
+    <head>
+        <style>
+            .dropdown {
+                position: relative;
+                display: inline-block;
+                width: 200px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                cursor: pointer;
+                background-color: white;
+                padding: 10px;
+                user-select: none;
+            }
+
+            .dropdown-list {
+            display: none; /* Initially hidden */
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            z-index: 1;
+            width: 100%;
+            max-height: 150px;
+            overflow-y: auto;
+            }
+
+            .dropdown-item {
+                padding: 10px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+            .dropdown-item:hover {
+                background-color: #f0f0f0; /* Change background on hover */
+            }
+        </style>
+    </head>
+    <body>
+        <div class='dropdown'>
+            <div class='dropdown-list'>
+                <div class='dropdown-item'>
+                    <span>Issue1</span>
+                    <span>A</span>
+                </div>
+                <div class='dropdown-item'>
+                    <span>Issue2</span>
+                    <span>C</span>
+                </div>
+                <div class='dropdown-item'>
+                    <span>Issue3</span>
+                    <span>B</span>
+                </div>
+                <div class='dropdown-item'>
+                    <span>Issue4</span>
+                    <span>C</span>
+                </div>
+                <div class='dropdown-item'>
+                    <span>Issue5</span>
+                    <span>B</span>
+                </div>
+                <div class='dropdown-item'>
+                    <span>Issue6</span>
+                    <span>C</span>
+                </div>
+                <div class='dropdown-item'>
+                    <span>Issue7</span>
+                    <span>C</span>
+                </div>
+                <div class='dropdown-item'>
+                    <span>Issue8</span>
+                    <span>A</span>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const dropdown = document.querySelector('.dropdown');
+            const dropdownList = document.querySelector('.dropdown-list');
+        
+            dropdown.addEventListener('click', () => {
+                dropdownList.style.display = dropdownList.style.display === 'none' || dropdownList.style.display === '' ? 'block' : 'none';
+            });
+        
+            const items = document.querySelectorAll('.dropdown-item');
+            items.forEach(item => {
+                item.addEventListener('click', () => {
+                    dropdown.firstChild.nodeValue = item.textContent; // Update the displayed value
+                    dropdownList.style.display = 'none'; // Hide the dropdown
+                });
+            });
+        </script>
+    </body>
+</html>

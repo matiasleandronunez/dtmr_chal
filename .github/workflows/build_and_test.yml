@@ -1,0 +1,59 @@
+name: Build, Serve and Test
+
+on:
+  workflow_run: 
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      web:
+        image: node:20
+        ports:
+          - 8080:8080
+        options: >-
+          --health-cmd="curl -f http://localhost:8080 || exit 1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+        volumes:
+          - .:/app
+        # Remove command since we will start the server in steps
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Start HTTP server
+        run: http-server /app/html -p 8080 &
+
+      - name: Wait for server to start
+        run: |
+            for i in {1..30}; do
+            if curl -s http://localhost:8080 > /dev/null; then
+                echo "Server is up!"
+                break
+            fi
+            echo "Waiting for server to start..."
+            sleep 2
+            done
+
+      - name: Run Playwright tests
+        run: npx playwright test --reporter=html --output=test-results
+          
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Playwright Results
+          path: test-results/

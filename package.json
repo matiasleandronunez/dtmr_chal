@@ -1,0 +1,19 @@
+{
+    "name": "playwright-dropdown-tests",
+    "version": "1.0.0",
+    "description": "Playwright tests for a simple dropdown component",
+    "main": "index.js",
+    "scripts": {
+      "start": "http-server -p 8080",
+      "test": "playwright test"
+    },
+    "keywords": [],
+    "author": "Matias L Nunez",
+    "dependencies": {
+      "http-server": "^14.1.0"
+    },
+    "devDependencies": {
+      "@playwright/test": "^1.48.0",
+      "@types/node": "22.7.8"
+    }
+  }
