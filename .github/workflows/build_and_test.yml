@@ -56,4 +56,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Playwright Results
-          path: ./tests/test-results/
+          path: test-results/*
