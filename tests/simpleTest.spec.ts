@@ -1,8 +1,8 @@
 import {expect, test} from "@playwright/test"
 
 
-test.describe('Datamaran practical exercise', () => {
-    test('should navigate to Page2 and see the same values in dropdown', async ({ page }) => {
+test.describe('DTMR practical exercise', () => {
+    test('should navigate to Page two and see the same values in dropdown', async ({ page }) => {
         // Precondition as depicted in exercise
         console.log('Precondition: Navigating to Page1');
         
@@ -23,7 +23,7 @@ test.describe('Datamaran practical exercise', () => {
         console.log(`Page1 table values retrieved:\n${JSON.stringify(issueBucketValues, null, 2)}`);
         
         // Navigate to page2
-        console.log('Navigating to page2');
+        console.log('Navigating to page two');
         
         await page.locator("a[href*='page2']").click();
 
